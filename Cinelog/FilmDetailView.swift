@@ -1,5 +1,5 @@
 //
-//  HomeDetailView.swift
+//  FilmDetailViewH.swift
 //  TabView
 //
 //  Created by Isabella Sulisufi on 13/03/2026.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct HomeDetailView: View {
+struct FilmDetailView: View {
     let features = [
         ("star.fill",       "Starred Items",  "Your top picks in one place.",   Color.yellow),
         ("bell.fill",       "Notifications",  "Stay up to date.",               Color.orange),

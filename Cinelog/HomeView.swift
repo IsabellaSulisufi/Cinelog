@@ -22,8 +22,8 @@ struct HomeView: View {
 
                 // NavigationLink wraps a button-like view and pushes
                 // DetailView onto the navigation stack when tapped
-                NavigationLink(destination: HomeDetailView()) {
-                    Label("Go to Details", systemImage: "arrow.right.circle.fill")
+                NavigationLink(destination: FilmDetailView()) {
+                    Label("Go to Film Details", systemImage: "arrow.right.circle.fill")
                         .font(.headline)
                         .foregroundColor(.white)
                         .padding()

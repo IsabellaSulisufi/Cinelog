@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  RootView.swift
 //  TabView
 //
 //  Created by Isabella Sulisufi on 12/03/2026.
@@ -8,7 +8,7 @@
 import SwiftUI
 
 // MARK: - Root Content View with TabView
-struct ContentView: View {
+struct RootView: View {
     @State private var selectedTab = 0
 
     var body: some View {
@@ -19,23 +19,17 @@ struct ContentView: View {
                 }
                 .tag(0)
 
-            SearchView()
+            MovieSearchView()
                 .tabItem {
                     Label("Search", systemImage: "magnifyingglass")
                 }
                 .tag(1)
 
-            FavouritesView()
+            MyFilmsView()
                 .tabItem {
-                    Label("Favorites", systemImage: "heart.fill")
+                    Label("My Films", systemImage: "book.pages")
                 }
                 .tag(2)
-
-            ProfileView()
-                .tabItem {
-                    Label("Profile", systemImage: "person.fill")
-                }
-                .tag(3)
         }
         .accentColor(.blue) // Active tab icon color
     }
@@ -44,5 +38,5 @@ struct ContentView: View {
 
 // MARK: - Preview
 #Preview {
-    ContentView()
+    RootView()
 }
