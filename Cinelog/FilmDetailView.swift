@@ -9,9 +9,9 @@ import SwiftUI
 
 struct FilmDetailView: View {
     let features = [
-        ("star.fill",       "Starred Items",  "Your top picks in one place.",   Color.yellow),
-        ("bell.fill",       "Notifications",  "Stay up to date.",               Color.orange),
-        ("clock.fill",      "Recent Activity","See what you've been up to.",     Color.purple),
+        ("star.fill", "Starred Items", "Your top picks in one place.", Color.yellow),
+        ("bell.fill", "Notifications", "Stay up to date.", Color.orange),
+        ("clock.fill", "Recent Activity", "See what you've been up to.", Color.purple)
     ]
 
     var body: some View {
@@ -58,5 +58,8 @@ struct FilmDetailView: View {
         }
         .navigationTitle("Details")
         .navigationBarTitleDisplayMode(.inline)
+        .task {
+
+        }
     }
 }
