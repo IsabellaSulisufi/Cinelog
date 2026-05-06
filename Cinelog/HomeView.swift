@@ -8,32 +8,59 @@
 import SwiftUI
 
 struct HomeView: View {
+    @StateObject var viewModel = FilmClass()
+
     var body: some View {
         NavigationView {
-            VStack(spacing: 20) {
-                Image(systemName: "house.fill")
-                    .font(.system(size: 60))
-                    .foregroundColor(.blue)
-                Text("Welcome Home!")
-                    .font(.title)
-                    .fontWeight(.bold)
-                Text("This is the Home tab.")
-                    .foregroundColor(.secondary)
+            VStack {
+                ScrollView(.horizontal) {
+                    HStack {
+                        if viewModel.popularFilms.isEmpty {
+                            Text("Loading...")
+                                .font(Font.custom("Cochin", size: 20))
+                                .foregroundColor(Color("darkestBrown"))
+                                .multilineTextAlignment(.center)
+                        } else {
+                            ForEach(viewModel.popularFilms, id: \.id) { film in
+                                VStack {
 
-                // NavigationLink wraps a button-like view and pushes
-                // DetailView onto the navigation stack when tapped
-                NavigationLink(destination: FilmDetailView()) {
-                    Label("Go to Film Details", systemImage: "arrow.right.circle.fill")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.blue)
-                        .cornerRadius(12)
-                        .padding(.horizontal)
+                                    AsyncImage(url: URL(string: "https://image.tmdb.org/t/p/w500\(film.posterPath ?? "")")) { image in
+                                        image
+                                            .resizable()
+                                            .scaledToFill()
+                                    } placeholder: {
+                                        Rectangle()
+                                            .foregroundColor(Color.white)
+                                    }
+                                    .frame(width: 96, height: 144)
+                                    .cornerRadius(8)
+                                    Text(film.title)
+                                        .foregroundColor(Color.black)
+                                        .multilineTextAlignment(.leading)
+                                        .frame(width: 96.0, height: 70.0)
+                                        .lineLimit(nil)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                }
+                                .padding(.trailing, 10.0)
+                            }
+                        }
+                        Spacer()
+                    }
                 }
             }
-            .navigationTitle("Home")
-        }
+            .padding(.horizontal, 20.0)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color("Background"))
+            .ignoresSafeArea()
+            .navigationTitle("Cinelog")
+            .task {
+                await viewModel.loadPopularFilms()
+            }        }
+
     }
+}
+
+// MARK: - Preview
+#Preview {
+    HomeView()
 }

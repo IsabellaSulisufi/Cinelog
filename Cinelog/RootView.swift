@@ -35,7 +35,6 @@ struct RootView: View {
     }
 }
 
-
 // MARK: - Preview
 #Preview {
     RootView()
