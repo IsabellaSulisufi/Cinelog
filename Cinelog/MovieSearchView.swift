@@ -1,5 +1,5 @@
 //
-//  SearchView.swift
+//  MovieSearchView.swift
 //  TabView
 //
 //  Created by Isabella Sulisufi on 13/03/2026.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SearchView: View {
+struct MovieSearchView: View {
     @State private var searchText = ""
 
     var body: some View {

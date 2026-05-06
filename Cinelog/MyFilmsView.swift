@@ -1,5 +1,5 @@
 //
-//  FavouritesView.swift
+//  MyFilmsView.swift
 //  TabView
 //
 //  Created by Isabella Sulisufi on 13/03/2026.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct FavouritesView: View {
+struct MyFilmsView: View {
     let items = ["SwiftUI", "Combine", "UIKit", "CoreData", "CloudKit"]
 
     var body: some View {

@@ -8,10 +8,10 @@
 import SwiftUI
 
 @main
-struct TabViewApp: App {
+struct Cinelog: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootView()
         }
     }
 }
