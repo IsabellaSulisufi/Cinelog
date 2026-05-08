@@ -22,7 +22,6 @@ class FilmClass: ObservableObject {
     func loadPopularFilms() async {
         do {
             popularFilms = try await getPopularFilms().results
-            print(popularFilms)
         } catch {
             print(error)
         }
@@ -36,12 +35,16 @@ class FilmClass: ObservableObject {
             throw NetworkError.invalidURL
         }
 
+        guard let token = Bundle.main.infoDictionary?["TMDBAccessToken"] as? String else {
+            throw NetworkError.invalidCall
+        }
+
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.timeoutInterval = 10
         request.allHTTPHeaderFields = [
             "accept": "application/json",
-            "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjNzI4ZTYwNjdlMDVhZDRhNDIxZGE1OTczNTc0YWMyNyIsIm5iZiI6MTc3Nzk5NTYzNy4yMTgsInN1YiI6IjY5ZmEwZjc1YmU5OThlZWY0ZmJmMTk5YiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.rDRDeDS8QfdS_oIGwXWinKIjFr5Z33SoDJ1tOP_qEiw"
+            "Authorization": "Bearer \(token)"
         ]
 
         let (data, response) = try await URLSession.shared.data(for: request)

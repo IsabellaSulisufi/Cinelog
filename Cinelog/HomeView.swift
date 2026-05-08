@@ -13,12 +13,19 @@ struct HomeView: View {
     var body: some View {
         NavigationView {
             VStack {
+                NavigationLink(destination: FilmDetailView(film: mockFilm)) {
+                    Image(systemName: "plus")
+                        .padding()
+                        .foregroundColor(Color.blue)
+                        .background(Color.red)
+                        .cornerRadius(25)
+                }
                 ScrollView(.horizontal) {
+                
                     HStack {
                         if viewModel.popularFilms.isEmpty {
                             Text("Loading...")
                                 .font(Font.custom("Cochin", size: 20))
-                                .foregroundColor(Color("darkestBrown"))
                                 .multilineTextAlignment(.center)
                         } else {
                             ForEach(viewModel.popularFilms, id: \.id) { film in
