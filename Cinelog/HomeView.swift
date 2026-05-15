@@ -13,42 +13,37 @@ struct HomeView: View {
     var body: some View {
         NavigationView {
             VStack {
-                NavigationLink(destination: FilmDetailView(film: mockFilm)) {
-                    Image(systemName: "plus")
-                        .padding()
-                        .foregroundColor(Color.blue)
-                        .background(Color.red)
-                        .cornerRadius(25)
-                }
                 ScrollView(.horizontal) {
-                
+
                     HStack {
                         if viewModel.popularFilms.isEmpty {
                             Text("Loading...")
-                                .font(Font.custom("Cochin", size: 20))
+                                .font(.system(size: 20))
                                 .multilineTextAlignment(.center)
                         } else {
                             ForEach(viewModel.popularFilms, id: \.id) { film in
-                                VStack {
 
-                                    AsyncImage(url: URL(string: "https://image.tmdb.org/t/p/w500\(film.posterPath ?? "")")) { image in
-                                        image
-                                            .resizable()
-                                            .scaledToFill()
-                                    } placeholder: {
-                                        Rectangle()
-                                            .foregroundColor(Color.white)
+                                NavigationLink(destination: FilmDetailView(filmId: film.id)) {
+                                    VStack {
+                                        AsyncImage(url: URL(string: "https://image.tmdb.org/t/p/w500\(film.posterPath ?? "")")) { image in
+                                            image
+                                                .resizable()
+                                                .scaledToFill()
+                                        } placeholder: {
+                                            Rectangle()
+                                                .foregroundColor(Color.white)
+                                        }
+                                        .frame(width: 96, height: 144)
+                                        .cornerRadius(8)
+                                        Text(film.title)
+                                            .foregroundColor(Color.black)
+                                            .multilineTextAlignment(.leading)
+                                            .frame(width: 96.0, height: 70.0)
+                                            .lineLimit(nil)
+                                            .fixedSize(horizontal: false, vertical: true)
                                     }
-                                    .frame(width: 96, height: 144)
-                                    .cornerRadius(8)
-                                    Text(film.title)
-                                        .foregroundColor(Color.black)
-                                        .multilineTextAlignment(.leading)
-                                        .frame(width: 96.0, height: 70.0)
-                                        .lineLimit(nil)
-                                        .fixedSize(horizontal: false, vertical: true)
+                                    .padding(.trailing, 10.0)
                                 }
-                                .padding(.trailing, 10.0)
                             }
                         }
                         Spacer()
@@ -62,8 +57,8 @@ struct HomeView: View {
             .navigationTitle("Cinelog")
             .task {
                 await viewModel.loadPopularFilms()
-            }        }
-
+            }
+        }
     }
 }
 

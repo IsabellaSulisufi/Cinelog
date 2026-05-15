@@ -16,22 +16,34 @@ enum NetworkError: Error {
     case invalidCall
 }
 
+@MainActor
 class FilmClass: ObservableObject {
     @Published var popularFilms: [FilmDetails] = []
+    @Published var filmDetails: FilmDetails?
 
     func loadPopularFilms() async {
         do {
-            popularFilms = try await getPopularFilms().results
+            let response: PopularFilmsResponse = try await makeAPIRequest(endpoint: "movie/popular")
+            popularFilms = response.results
         } catch {
             print(error)
         }
     }
 
-    func getPopularFilms() async throws -> PopularFilmsResponse {
+    func loadFilmDetail(id: Int) async {
+        do {
+            let response: FilmDetails = try await makeAPIRequest(endpoint: "movie/\(id)")
+            filmDetails = response
+        } catch {
+            print(error)
+        }
+    }
 
-        let endpoint = "https://api.themoviedb.org/3/movie/popular"
+    func makeAPIRequest<T: Codable>(endpoint: String) async throws -> T {
 
-        guard let url = URL(string: endpoint) else {
+        let baseURL = "https://api.themoviedb.org/3/"
+
+        guard let url = URL(string: baseURL + endpoint) else {
             throw NetworkError.invalidURL
         }
 
@@ -59,7 +71,7 @@ class FilmClass: ObservableObject {
         do {
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
-            return try decoder.decode(PopularFilmsResponse.self, from: data)
+            return try decoder.decode(T.self, from: data)
 
         // if this fails it is because it doesn't match the model names correctly
         } catch {
