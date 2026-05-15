@@ -16,6 +16,7 @@ struct FilmDetails: Codable {
     let runtime: Int?
     let genres: [Genre]?
     let overview: String?
+    let tagline: String?
 }
 
 struct Genre: Codable {
