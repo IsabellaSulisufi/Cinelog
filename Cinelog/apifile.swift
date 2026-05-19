@@ -18,12 +18,13 @@ enum NetworkError: Error {
 
 @MainActor
 class FilmClass: ObservableObject {
-    @Published var popularFilms: [FilmDetails] = []
-    @Published var filmDetails: FilmDetails?
+    @Published var popularFilms: [FilmDetail] = []
+    @Published var searchResults: [FilmDetail] = []
+    @Published var filmDetails: FilmDetail?
 
     func loadPopularFilms() async {
         do {
-            let response: PopularFilmsResponse = try await makeAPIRequest(endpoint: "movie/popular")
+            let response: FilmsResponse = try await makeAPIRequest(endpoint: "movie/popular")
             popularFilms = response.results
         } catch {
             print(error)
@@ -32,8 +33,17 @@ class FilmClass: ObservableObject {
 
     func loadFilmDetail(id: Int) async {
         do {
-            let response: FilmDetails = try await makeAPIRequest(endpoint: "movie/\(id)")
+            let response: FilmDetail = try await makeAPIRequest(endpoint: "movie/\(id)")
             filmDetails = response
+        } catch {
+            print(error)
+        }
+    }
+
+    func loadSearchedFilmResult(searchedFilm: String) async {
+        do {
+            let response: FilmsResponse = try await makeAPIRequest(endpoint: "search/movie?query=\(searchedFilm)")
+            searchResults = response.results
         } catch {
             print(error)
         }
