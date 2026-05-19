@@ -34,7 +34,7 @@ struct FilmDetailView: View {
                         .fontWeight(.heavy)
                         .multilineTextAlignment(.center)
                         .padding(.bottom, 6)
-                    
+
                     if let tagline = film.tagline, !tagline.isEmpty {
                         Text(tagline)
                             .foregroundColor(Color("Font"))
@@ -53,7 +53,7 @@ struct FilmDetailView: View {
                     }
 //
 
-                    HStack (spacing: 12) {
+                    HStack(spacing: 12) {
                         ForEach((film.genres ?? []).prefix(2), id: \.id) { genre in
                             Text(genre.name)
                                 .textCase(.uppercase)
@@ -73,7 +73,7 @@ struct FilmDetailView: View {
                     Divider()
                         .overlay(Color("LightGrey"))
 
-                    HStack (spacing: 20) {
+                    HStack(spacing: 20) {
                         HStack {
                             Text("\(film.voteAverage, specifier: "%.1f")")
                                 .fontWeight(.heavy)
@@ -115,6 +115,8 @@ struct FilmDetailView: View {
                             .lineSpacing(8)
                     }
                     .padding(.top, 10)
+                    .padding(.horizontal, 20)
+
                     Spacer()
                 }
 
@@ -123,7 +125,7 @@ struct FilmDetailView: View {
             }
 
         }
-        .padding(.horizontal, 20)
+//        .padding(.horizontal, 20)
         .background(Color("Background"))
         .navigationBarTitleDisplayMode(.inline)
         .frame(maxWidth: .infinity, maxHeight: .infinity)

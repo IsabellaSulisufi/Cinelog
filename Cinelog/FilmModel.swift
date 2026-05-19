@@ -5,7 +5,7 @@
 //  Created by Isabella Sulisufi on 06/05/2026.
 //
 
-struct FilmDetails: Codable {
+struct FilmDetail: Codable {
     let id: Int
     let title: String
     let posterPath: String?
@@ -24,6 +24,6 @@ struct Genre: Codable {
     let name: String
 }
 
-struct PopularFilmsResponse: Codable {
-    let results: [FilmDetails]
+struct FilmsResponse: Codable {
+    let results: [FilmDetail]
 }
