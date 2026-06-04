@@ -20,7 +20,18 @@ enum NetworkError: Error {
 class FilmClass: ObservableObject {
     @Published var popularFilms: [FilmDetail] = []
     @Published var searchResults: [FilmDetail] = []
+    @Published var topRatedFilms: [FilmDetail] = []
     @Published var filmDetails: FilmDetail?
+    @Published var genres = ["Action", "Comedy", "Drama", "Horror", "Romance", "Thriller", "Animation", "Sci-Fi", "Documentary"]
+    
+    func loadTopRatedFilmResult() async {
+        do {
+            let response: FilmsResponse = try await makeAPIRequest(endpoint: "movie/top_rated")
+            topRatedFilms = response.results
+        } catch {
+            print(error)
+        }
+    }
 
     func loadPopularFilms() async {
         do {

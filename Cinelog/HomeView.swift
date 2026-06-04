@@ -22,7 +22,6 @@ struct HomeView: View {
                                 .multilineTextAlignment(.center)
                         } else {
                             ForEach(viewModel.popularFilms, id: \.id) { film in
-
                                 NavigationLink(destination: FilmDetailView(filmId: film.id)) {
                                     VStack {
                                         AsyncImage(url: URL(string: "https://image.tmdb.org/t/p/w500\(film.posterPath ?? "")")) { image in
