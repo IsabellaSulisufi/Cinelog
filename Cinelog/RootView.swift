@@ -10,6 +10,7 @@ import SwiftUI
 // MARK: - Root Content View with TabView
 struct RootView: View {
     @State private var selectedTab = 0
+    @StateObject var viewModel = FilmClass()
 
     var body: some View {
         TabView(selection: $selectedTab) {
@@ -31,6 +32,7 @@ struct RootView: View {
                 }
                 .tag(2)
         }
+        .environmentObject(viewModel)
         .accentColor(.blue) // Active tab icon color
     }
 }
