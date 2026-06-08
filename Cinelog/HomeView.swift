@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct HomeView: View {
-    @StateObject var viewModel = FilmClass()
-
+    @EnvironmentObject var viewModel: FilmClass
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -64,4 +64,5 @@ struct HomeView: View {
 // MARK: - Preview
 #Preview {
     HomeView()
+        .environmentObject(FilmClass())
 }

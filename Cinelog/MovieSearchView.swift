@@ -9,7 +9,8 @@ import SwiftUI
 
 struct MovieSearchView: View {
     @State private var searchTerm = ""
-    @StateObject var viewModel = FilmClass()
+    @EnvironmentObject var viewModel: FilmClass
+
     let genres = ["Action", "Comedy", "Drama", "Horror", "Romance", "Thriller", "Animation", "Sci-Fi", "Documentary"]
 
 
@@ -136,4 +137,5 @@ struct MovieSearchView: View {
 // MARK: - Preview
 #Preview {
     MovieSearchView()
+        .environmentObject(FilmClass())
 }
