@@ -5,9 +5,9 @@
 //  Created by Isabella Sulisufi on 06/05/2026.
 //
 
+import Combine
 import Foundation
 import SwiftUI
-import Combine
 
 enum NetworkError: Error {
     case invalidURL
@@ -21,14 +21,17 @@ class FilmClass: ObservableObject {
     @Published var popularFilms: [FilmDetail] = []
     @Published var searchResults: [FilmDetail] = []
     @Published var topRatedFilms: [FilmDetail] = []
+
     @Published var myFilms: [FilmDetail] = []
     @Published var filmDetails: FilmDetail?
     @Published var genres = ["Action", "Comedy", "Drama", "Horror", "Romance", "Thriller", "Animation", "Sci-Fi", "Documentary"]
-    
+
+    @Published var watchedFilms: [WatchedFilm] = []
+
     var isWatched: Bool {
         myFilms.contains(where: { $0.id == filmDetails?.id })
     }
-    
+
     func loadTopRatedFilmResult() async {
         do {
             let response: FilmsResponse = try await makeAPIRequest(endpoint: "movie/top_rated")
@@ -66,7 +69,6 @@ class FilmClass: ObservableObject {
     }
 
     func makeAPIRequest<T: Codable>(endpoint: String) async throws -> T {
-
         let baseURL = "https://api.themoviedb.org/3/"
 
         guard let url = URL(string: baseURL + endpoint) else {
@@ -82,7 +84,7 @@ class FilmClass: ObservableObject {
         request.timeoutInterval = 10
         request.allHTTPHeaderFields = [
             "accept": "application/json",
-            "Authorization": "Bearer \(token)"
+            "Authorization": "Bearer \(token)",
         ]
 
         let (data, response) = try await URLSession.shared.data(for: request)
@@ -99,7 +101,7 @@ class FilmClass: ObservableObject {
             decoder.keyDecodingStrategy = .convertFromSnakeCase
             return try decoder.decode(T.self, from: data)
 
-        // if this fails it is because it doesn't match the model names correctly
+            // if this fails it is because it doesn't match the model names correctly
         } catch {
             throw NetworkError.invalidData
         }

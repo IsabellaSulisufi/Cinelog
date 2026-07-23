@@ -5,6 +5,8 @@
 //  Created by Isabella Sulisufi on 06/05/2026.
 //
 
+import Foundation
+
 struct FilmDetail: Codable {
     let id: Int
     let title: String
@@ -26,4 +28,13 @@ struct Genre: Codable {
 
 struct FilmsResponse: Codable {
     let results: [FilmDetail]
+}
+
+struct WatchedFilm: Codable {
+    let results: [FilmDetail]
+    let scoreRating: Int
+    let dateWatched: Date
+    let locationWatched: [String]
+    let watchedWith: String
+    let emotionFelt: [String]
 }

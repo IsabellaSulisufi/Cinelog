@@ -8,6 +8,7 @@
 import SwiftUI
 
 // MARK: - Root Content View with TabView
+
 struct RootView: View {
     @State private var selectedTab = 0
     @StateObject var viewModel = FilmClass()
@@ -38,6 +39,7 @@ struct RootView: View {
 }
 
 // MARK: - Preview
+
 #Preview {
     RootView()
 }
