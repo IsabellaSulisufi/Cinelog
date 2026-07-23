@@ -33,7 +33,7 @@ let watchedFilms: [FilmDetail] = [
         tagline: nil
     ),
     FilmDetail(
-        id: 447332,
+        id: 447_332,
         title: "A Quiet Place",
         posterPath: "/nAU74GmpUk7t5iklEp3bufwDq4n.jpg",
         releaseDate: "2018-04-03",
@@ -70,5 +70,5 @@ let watchedFilms: [FilmDetail] = [
         genres: [Genre(id: 878, name: "Science Fiction")],
         overview: "Humanity finds a mysterious object buried beneath the lunar surface.",
         tagline: "An epic drama of adventure and exploration"
-    )
+    ),
 ]

@@ -9,12 +9,11 @@ import SwiftUI
 
 struct HomeView: View {
     @EnvironmentObject var viewModel: FilmClass
-    
+
     var body: some View {
         NavigationView {
             VStack {
                 ScrollView(.horizontal) {
-
                     HStack {
                         if viewModel.popularFilms.isEmpty {
                             Text("Loading...")
@@ -62,6 +61,7 @@ struct HomeView: View {
 }
 
 // MARK: - Preview
+
 #Preview {
     HomeView()
         .environmentObject(FilmClass())

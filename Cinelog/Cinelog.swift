@@ -1,5 +1,5 @@
 //
-//  TabViewApp.swift
+//  Cinelog.swift
 //  TabView
 //
 //  Created by Isabella Sulisufi on 12/03/2026.

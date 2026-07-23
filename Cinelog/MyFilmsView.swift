@@ -9,7 +9,6 @@ import SwiftUI
 
 struct MyFilmsView: View {
     @EnvironmentObject var viewModel: FilmClass
-    let items = ["SwiftUI", "Combine", "UIKit", "CoreData", "CloudKit"]
 
     var body: some View {
         NavigationView {

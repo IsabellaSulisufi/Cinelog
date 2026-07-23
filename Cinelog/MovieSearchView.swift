@@ -13,7 +13,6 @@ struct MovieSearchView: View {
 
     let genres = ["Action", "Comedy", "Drama", "Horror", "Romance", "Thriller", "Animation", "Sci-Fi", "Documentary"]
 
-
     var body: some View {
         NavigationView {
             VStack(spacing: 10) {
@@ -29,15 +28,16 @@ struct MovieSearchView: View {
                                 HStack {
                                     ForEach(genres.shuffled().prefix(5), id: \.self) { genre in
                                         Text(genre)
-                                        
+
                                             .font(.system(size: 13))
                                             .padding(.horizontal, 10)
                                             .padding(.vertical, 8)
+                                            .lineLimit(1)
                                             .background(Color.white)
                                             .cornerRadius(20)
                                             .overlay(
                                                 RoundedRectangle(cornerRadius: 20)
-                                                
+
                                                     .stroke(Color("LightGrey"), lineWidth: 1)
                                             )
                                     }
@@ -53,22 +53,23 @@ struct MovieSearchView: View {
                             LazyVGrid(columns: [
                                 GridItem(.flexible()),
                                 GridItem(.flexible()),
-                                GridItem(.flexible())
+                                GridItem(.flexible()),
                             ], spacing: 15) {
                                 ForEach(viewModel.topRatedFilms, id: \.id) { film in
                                     NavigationLink(destination: FilmDetailView(filmId: film.id)) {
                                         VStack {
                                             AsyncImage(url: URL(
-                                                string: "https://image.tmdb.org/t/p/w500\(film.posterPath ?? "")")) { image in
-                                                    image
-                                                        .resizable()
-                                                        .scaledToFill()
-                                                } placeholder: {
-                                                    Rectangle()
-                                                        .foregroundColor(Color.gray.opacity(0.3))
-                                                }
-                                                .frame(height: 160)
-                                                .cornerRadius(8)
+                                                string: "https://image.tmdb.org/t/p/w500\(film.posterPath ?? "")"
+                                            )) { image in
+                                                image
+                                                    .resizable()
+                                                    .scaledToFill()
+                                            } placeholder: {
+                                                Rectangle()
+                                                    .foregroundColor(Color.gray.opacity(0.3))
+                                            }
+                                            .frame(height: 160)
+                                            .cornerRadius(8)
                                             Text(film.title)
                                                 .foregroundColor(Color.black)
                                                 .font(.system(size: 12))
@@ -89,22 +90,23 @@ struct MovieSearchView: View {
                         LazyVGrid(columns: [
                             GridItem(.flexible()),
                             GridItem(.flexible()),
-                            GridItem(.flexible())
+                            GridItem(.flexible()),
                         ], spacing: 12) {
                             ForEach(viewModel.searchResults, id: \.id) { film in
                                 NavigationLink(destination: FilmDetailView(filmId: film.id)) {
                                     VStack {
                                         AsyncImage(url: URL(
-                                            string: "https://image.tmdb.org/t/p/w500\(film.posterPath ?? "")")) { image in
-                                                image
-                                                    .resizable()
-                                                    .scaledToFill()
-                                            } placeholder: {
-                                                Rectangle()
-                                                    .foregroundColor(Color.gray.opacity(0.3))
-                                            }
-                                            .frame(height: 160)
-                                            .cornerRadius(8)
+                                            string: "https://image.tmdb.org/t/p/w500\(film.posterPath ?? "")"
+                                        )) { image in
+                                            image
+                                                .resizable()
+                                                .scaledToFill()
+                                        } placeholder: {
+                                            Rectangle()
+                                                .foregroundColor(Color.gray.opacity(0.3))
+                                        }
+                                        .frame(height: 160)
+                                        .cornerRadius(8)
                                         Text(film.title)
                                             .foregroundColor(Color.black)
                                             .font(.system(size: 11))
@@ -124,7 +126,6 @@ struct MovieSearchView: View {
             .onChange(of: searchTerm) {
                 Task {
                     await viewModel.loadSearchedFilmResult(searchedFilm: searchTerm)
-                    
                 }
             }
             .task {
@@ -135,6 +136,7 @@ struct MovieSearchView: View {
 }
 
 // MARK: - Preview
+
 #Preview {
     MovieSearchView()
         .environmentObject(FilmClass())

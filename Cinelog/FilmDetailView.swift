@@ -1,5 +1,5 @@
 //
-//  FilmDetailViewH.swift
+//  FilmDetailView.swift
 //  TabView
 //
 //  Created by Isabella Sulisufi on 13/03/2026.
@@ -10,7 +10,7 @@ import SwiftUI
 struct FilmDetailView: View {
     @EnvironmentObject var viewModel: FilmClass
     @State private var showAlert = false
-    @Environment(\.dismiss) var dismiss 
+    @Environment(\.dismiss) var dismiss
     let filmId: Int
 
     var body: some View {
@@ -18,7 +18,6 @@ struct FilmDetailView: View {
             ScrollView {
                 if let film = viewModel.filmDetails {
                     VStack(spacing: 10) {
-
                         AsyncImage(url: URL(string: "https://image.tmdb.org/t/p/w500\(film.posterPath ?? "")")) { image in
                             image
                                 .resizable()
@@ -47,14 +46,14 @@ struct FilmDetailView: View {
 
                         HStack {
                             Text(String(film.releaseDate.prefix(4)))
-                                .foregroundColor((Color("Font")))
+                                .foregroundColor(Color("Font"))
                                 .font(.system(size: 12))
 
                             Text(film.runtime?.toHoursAndMinutes() ?? "")
                                 .foregroundColor(Color("Font"))
-                                    .font(.system(size: 12))
+                                .font(.system(size: 12))
                         }
-    //
+                        //
 
                         HStack(spacing: 12) {
                             ForEach((film.genres ?? []).prefix(2), id: \.id) { genre in
@@ -85,8 +84,7 @@ struct FilmDetailView: View {
 
                                 Text("/ 10")
                                     .font(.system(size: 12))
-                                    .foregroundColor((Color("Font")))
-
+                                    .foregroundColor(Color("Font"))
                             }
                             .padding(.vertical, 5)
                             .padding(.horizontal, 14)
@@ -98,7 +96,7 @@ struct FilmDetailView: View {
                             .cornerRadius(30)
 
                             Text("\(film.voteCount) votes")
-                                .foregroundColor((Color("Font")))
+                                .foregroundColor(Color("Font"))
                                 .font(.system(size: 10))
                         }
                         Divider()
@@ -114,7 +112,7 @@ struct FilmDetailView: View {
 
                             Text(film.overview ?? "No overview available")
                                 .font(.system(size: 14))
-                                .foregroundColor((Color("Font")))
+                                .foregroundColor(Color("Font"))
                                 .lineSpacing(8)
                         }
                         .padding(.top, 10)
@@ -126,7 +124,6 @@ struct FilmDetailView: View {
                 } else {
                     Text("Loading")
                 }
-
             }
             .navigationBarTitleDisplayMode(.inline)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -134,45 +131,42 @@ struct FilmDetailView: View {
                 await viewModel.loadFilmDetail(id: filmId)
             }
             if let film = viewModel.filmDetails {
-                 Button {
-                     if !viewModel.isWatched {
-                         viewModel.myFilms.append(film)
-                     } else {
-                         showAlert = true
-                     }
-                 } label: {
-                     Text(viewModel.isWatched ? "Watched" : "Mark as Watched")
- .foregroundColor(Color("Background"))
-                         .frame(maxWidth: .infinity)
-                         .frame(height: 50)
-                         .background(Color("Accent"))
-                         .cornerRadius(12)
-                         .padding(.horizontal, 16)
-                         .padding(.bottom, 16)
-                         .padding(.top, 8)
-                 }
-                 .alert("Already in My Films", isPresented: $showAlert) {
-                     Button("Find something new") {
-                         dismiss()
-                     }
-                     Button("Cancel", role: .cancel) { }
-                 } message: {
-                     Text("This one's already in your collection. Time to find your next favourite?")
-                 }
-
-             }
+                Button {
+                    if !viewModel.isWatched {
+                        viewModel.myFilms.append(film)
+                    } else {
+                        showAlert = true
+                    }
+                } label: {
+                    Text(viewModel.isWatched ? "Watched" : "Mark as Watched")
+                        .foregroundColor(Color("Background"))
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 50)
+                        .background(Color("Accent"))
+                        .cornerRadius(12)
+                        .padding(.horizontal, 16)
+                        .padding(.bottom, 16)
+                        .padding(.top, 8)
+                }
+                .alert("Already in My Films", isPresented: $showAlert) {
+                    Button("Find something new") {
+                        dismiss()
+                    }
+                    Button("Cancel", role: .cancel) {}
+                } message: {
+                    Text("This one's already in your collection. Time to find your next favourite?")
+                }
+            }
         }
-        
-        
-        
-        .background(Color("Background"))
 
+        .background(Color("Background"))
     }
 }
 
 // MARK: - Preview
+
 #Preview {
-    FilmDetailView(filmId: 594767)
+    FilmDetailView(filmId: 594_767)
         .environmentObject(FilmClass())
 }
 
