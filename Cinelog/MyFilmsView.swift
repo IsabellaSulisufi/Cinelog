@@ -19,7 +19,7 @@ struct MyFilmsView: View {
                     .padding(.leading, 24)
 
                 HStack {
-                    Text("\(viewModel.myFilms.count) films")
+                    Text("\(viewModel.watchedFilms.count) films")
                         .foregroundColor(Color("Font"))
                         .font(.system(size: 12))
                 }
@@ -28,7 +28,8 @@ struct MyFilmsView: View {
 
                 ScrollView {
                     VStack(alignment: .leading, spacing: 10) {
-                        ForEach(viewModel.myFilms.prefix(5), id: \.id) { film in
+                        ForEach(viewModel.watchedFilms.prefix(5), id: \.film.id) { watchedFilm in
+                            let film = watchedFilm.film
                             NavigationLink(destination: FilmDetailView(filmId: film.id)) {
                                 HStack(alignment: .top) {
                                     VStack {
@@ -101,7 +102,7 @@ struct MyFilmsView: View {
                                             )
                                             .cornerRadius(30)
 
-                                            Text("Watched April 28")
+                                            Text("Watched \(watchedFilm.dateWatched.formatted(date: .abbreviated, time: .omitted))")
                                                 .foregroundColor(Color("Font"))
                                                 .font(.system(size: 12))
                                         }

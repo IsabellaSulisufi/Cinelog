@@ -9,7 +9,8 @@ import SwiftUI
 
 struct FilmDetailView: View {
     @EnvironmentObject var viewModel: FilmClass
-    @State private var showAlert = false
+    @State private var showAlertSheet = false
+    @State private var showRatingSheet = false
     @Environment(\.dismiss) var dismiss
     let filmId: Int
 
@@ -133,9 +134,10 @@ struct FilmDetailView: View {
             if let film = viewModel.filmDetails {
                 Button {
                     if !viewModel.isWatched {
-                        viewModel.myFilms.append(film)
+                        showRatingSheet = true
+                        
                     } else {
-                        showAlert = true
+                        showAlertSheet = true
                     }
                 } label: {
                     Text(viewModel.isWatched ? "Watched" : "Mark as Watched")
@@ -148,13 +150,17 @@ struct FilmDetailView: View {
                         .padding(.bottom, 16)
                         .padding(.top, 8)
                 }
-                .alert("Already in My Films", isPresented: $showAlert) {
+                .alert("Already in My Films", isPresented: $showAlertSheet) {
                     Button("Find something new") {
                         dismiss()
                     }
                     Button("Cancel", role: .cancel) {}
                 } message: {
                     Text("This one's already in your collection. Time to find your next favourite?")
+                }
+                .sheet(isPresented: $showRatingSheet) {
+                    RatingView(film: film)
+                        .environmentObject(viewModel)
                 }
             }
         }
