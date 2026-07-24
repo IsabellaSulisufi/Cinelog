@@ -31,10 +31,10 @@ struct FilmsResponse: Codable {
 }
 
 struct WatchedFilm: Codable {
-    let results: [FilmDetail]
+    let film: FilmDetail
     let scoreRating: Int
     let dateWatched: Date
-    let locationWatched: [String]
+    let locationWatched: String
     let watchedWith: String
     let emotionFelt: [String]
 }

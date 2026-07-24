@@ -22,14 +22,13 @@ class FilmClass: ObservableObject {
     @Published var searchResults: [FilmDetail] = []
     @Published var topRatedFilms: [FilmDetail] = []
 
-    @Published var myFilms: [FilmDetail] = []
     @Published var filmDetails: FilmDetail?
     @Published var genres = ["Action", "Comedy", "Drama", "Horror", "Romance", "Thriller", "Animation", "Sci-Fi", "Documentary"]
 
     @Published var watchedFilms: [WatchedFilm] = []
 
     var isWatched: Bool {
-        myFilms.contains(where: { $0.id == filmDetails?.id })
+        watchedFilms.contains(where: { $0.film.id == filmDetails?.id })
     }
 
     func loadTopRatedFilmResult() async {

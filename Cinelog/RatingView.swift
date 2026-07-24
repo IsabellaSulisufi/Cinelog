@@ -9,11 +9,15 @@ import SwiftUI
 
 struct RatingView: View {
     @EnvironmentObject var viewModel: FilmClass
+    let film: FilmDetail
     @State private var watchedDate = Date.now
     @State private var isExpanded = false
-    @State private var selectedLocation: String? = nil
+    @State private var selectedLocation: String = ""
     @State private var withText: String = ""
     @State private var selectedFeelings: Set<String> = []
+    @State private var selectedScore: Int? = nil
+    @Environment(\.dismiss) var dismiss
+
 
     //    let dates = ["Today", "Yesterday", "Pick date..."]
 
@@ -22,9 +26,9 @@ struct RatingView: View {
         "Inspired", "Underwhelmed", "Left thinking", "Fell asleep", "Breathtaking",
     ]
 
-    private var film: FilmDetail {
-        watchedFilms[0]
-    }
+//    private var film: FilmDetail? {
+//        viewModel.filmDetails
+//    }
 
     private let feelingIcons: [String: String] = [
         "Wept": "drop", "Rewatch": "arrow.clockwise", "Slow burn": "flame",
@@ -39,47 +43,47 @@ struct RatingView: View {
                 VStack(alignment: .leading) {
                     // MOVIE DETAILS
                     HStack(alignment: .top) {
-                        VStack {
-                            AsyncImage(url: URL(string: "https://image.tmdb.org/t/p/w500\(film.posterPath ?? "no poster")")) { image in
-                                image
-                                    .resizable()
-                                    .scaledToFill()
-                            } placeholder: {
-                                Rectangle()
-                                    .foregroundColor(Color.white)
+                            VStack {
+                                AsyncImage(url: URL(string: "https://image.tmdb.org/t/p/w500\(film.posterPath ?? "no poster")")) { image in
+                                    image
+                                        .resizable()
+                                        .scaledToFill()
+                                } placeholder: {
+                                    Rectangle()
+                                        .foregroundColor(Color.white)
+                                }
+                                .frame(width: 96, height: 144)
+                                .cornerRadius(8)
                             }
-                            .frame(width: 96, height: 144)
-                            .cornerRadius(8)
-                        }
-                        .padding(.trailing, 14)
+                            .padding(.trailing, 14)
 
-                        VStack(alignment: .leading) {
-                            Text(film.title)
-                                .font(.custom("CormorantGaramond-Regular", size: 22))
-                                .foregroundColor(Color.black)
-                                .multilineTextAlignment(.leading)
-                                .lineLimit(nil)
-                                .fixedSize(horizontal: false, vertical: true)
-                                .padding(.bottom, 4)
+                            VStack(alignment: .leading) {
+                                Text(film.title)
+                                    .font(.custom("CormorantGaramond-Regular", size: 22))
+                                    .foregroundColor(Color.black)
+                                    .multilineTextAlignment(.leading)
+                                    .lineLimit(nil)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .padding(.bottom, 4)
 
-                            HStack {
-                                Text(String(film.releaseDate.prefix(4)))
-                                    .foregroundColor(Color("Font"))
-                                    .font(.system(size: 12))
+                                HStack {
+                                    Text(String(film.releaseDate.prefix(4)))
+                                        .foregroundColor(Color("Font"))
+                                        .font(.system(size: 12))
 
-                                Text(film.runtime?.toHoursAndMinutes() ?? "")
-                                    .foregroundColor(Color("Font"))
-                                    .font(.system(size: 12))
+                                    Text(film.runtime?.toHoursAndMinutes() ?? "")
+                                        .foregroundColor(Color("Font"))
+                                        .font(.system(size: 12))
+                                }
                             }
                         }
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.vertical, 20)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.vertical, 20)
                     Divider()
                         .padding(.bottom, 10)
 
                     // SCORE RATING
-                    ScorePickerView()
+                    ScorePickerView(selectedScore: $selectedScore)
                     Divider()
                         .padding(.bottom, 10)
 
@@ -207,7 +211,15 @@ struct RatingView: View {
                         .padding(.bottom, 10)
 
                     Button("Rate this movie") {
-                        // save movie rated
+                        viewModel.watchedFilms.append(WatchedFilm(
+                            film: film,
+                            scoreRating: selectedScore ?? 0,
+                            dateWatched: watchedDate,
+                            locationWatched: selectedLocation,
+                            watchedWith: withText,
+                            emotionFelt: Array(selectedFeelings)))
+                        dismiss()
+                        
                     }
                     .font(.headline)
                     .foregroundColor(.white)
@@ -216,6 +228,11 @@ struct RatingView: View {
                     .cornerRadius(10)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.bottom, 40)
+                    
+
+                    
+                    
+
                 }
                 .padding(.horizontal, 20)
             }
@@ -241,7 +258,7 @@ struct RatingView: View {
                 .stroke(Color("LightGrey"), lineWidth: 1)
         )
         .onTapGesture {
-            selectedLocation = (selectedLocation == name) ? nil : name
+            selectedLocation = (selectedLocation == name) ? "" : name
         }
     }
 
@@ -287,11 +304,11 @@ struct MultiSelectChips<Content: View>: View {
 }
 
 struct ScorePickerView: View {
-    @State private var selectedScore: Int? = nil
+    @Binding var selectedScore: Int?
     let total: Int = 10
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading) {
             Text("Your Score")
                 .foregroundColor(Color("Accent"))
                 .textCase(.uppercase)
@@ -302,7 +319,7 @@ struct ScorePickerView: View {
             HStack(spacing: 6) {
                 ForEach(1 ... total, id: \.self) { index in
                     RoundedRectangle(cornerRadius: 4)
-                        .fill(boxColor(for: index))
+                        .fill((selectedScore ?? 0) >= index ? Color("Accent") : Color("LightGrey"))
                         .overlay(
                             RoundedRectangle(cornerRadius: 4)
                                 .stroke(Color.gray.opacity(0.3), lineWidth: 1)
@@ -340,15 +357,9 @@ struct ScorePickerView: View {
                 }
             }
         }
-        .padding()
+//        .padding()
     }
 
-    func boxColor(for index: Int) -> Color {
-        guard let score = selectedScore else {
-            return Color.gray.opacity(0.08)
-        }
-        return index <= score ? Color("Accent") : Color.gray.opacity(0.08)
-    }
 }
 
 func scoreLabel(for score: Int) -> String {
@@ -363,13 +374,13 @@ func scoreLabel(for score: Int) -> String {
     case 8: return "loved it"
     case 9: return "loved it"
     case 10: return "a masterpiece"
-    default: return ""
+    default: return "okay i guess"
     }
 }
 
 // MARK: - Preview
 
 #Preview {
-    RatingView()
+    RatingView(film: FilmDetail(id: 594767, title: "Sinners", posterPath: nil, releaseDate: "2025-04-18", voteAverage: 7.5, voteCount: 1000, genreIds: nil, runtime: 137, genres: nil, overview: nil, tagline: nil))
         .environmentObject(FilmClass())
 }
