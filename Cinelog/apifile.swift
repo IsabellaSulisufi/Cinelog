@@ -21,12 +21,19 @@ class FilmClass: ObservableObject {
     @Published var popularFilms: [FilmDetail] = []
     @Published var searchResults: [FilmDetail] = []
     @Published var topRatedFilms: [FilmDetail] = []
+    @Published var nowPlayingInCinemaFilms: [FilmDetail] = []
 
     @Published var filmDetails: FilmDetail?
     @Published var genres = ["Action", "Comedy", "Drama", "Horror", "Romance", "Thriller", "Animation", "Sci-Fi", "Documentary"]
 
     @Published var watchedFilms: [WatchedFilm] = []
-
+    
+    var filmsNotWatched: [FilmDetail] {
+        popularFilms.filter { film in
+            !watchedFilms.contains(where: { $0.film.id == film.id })
+        }
+    }
+    
     var isWatched: Bool {
         watchedFilms.contains(where: { $0.film.id == filmDetails?.id })
     }
@@ -35,6 +42,15 @@ class FilmClass: ObservableObject {
         do {
             let response: FilmsResponse = try await makeAPIRequest(endpoint: "movie/top_rated")
             topRatedFilms = response.results
+        } catch {
+            print(error)
+        }
+    }
+    
+    func loadNowPlayingInCinemaFilms() async {
+        do {
+            let response: FilmsResponse = try await makeAPIRequest(endpoint: "movie/now_playing")
+            nowPlayingInCinemaFilms = response.results
         } catch {
             print(error)
         }
