@@ -8,10 +8,7 @@
 import SwiftUI
 
 struct HomeView: View {
-    @EnvironmentObject var viewModel: FilmClass
-    let genreNames = [28: "Action", 35: "Comedy", 18: "Drama", 27: "Horror", 10749: "Romance", 878: "Sci-Fi", 12: "Adventure", 16: "Animation", 53: "Thriller", 80: "Crime", 9648: "Mystery", 10751: "Family", 14: "Fantasy", 36: "History", 10402: "Music", 99: "Documentary"]
-
-
+    @StateObject private var viewModel = HomeViewModel()
 
     var body: some View {
         NavigationView {
@@ -72,7 +69,7 @@ struct HomeView: View {
                                                 .fixedSize(horizontal: false, vertical: true)
                                             Text("·")                                              .foregroundColor(Color("Font"))
                                             
-                                            if let firstGenreId = film.genreIds?.first, let genreName = genreNames[firstGenreId] {
+                                            if let genreName = viewModel.primaryGenreName(for: film) {
                                                 Text(genreName)
                                                     .font(.system(size: 10))
                                                     .foregroundColor(Color("Font"))
@@ -141,7 +138,7 @@ struct HomeView: View {
                                                 .fixedSize(horizontal: false, vertical: true)
                                             Text("·")                                              .foregroundColor(Color("Font"))
                                             
-                                            if let firstGenreId = film.genreIds?.first, let genreName = genreNames[firstGenreId] {
+                                            if let genreName = viewModel.primaryGenreName(for: film) {
                                                 Text(genreName)
                                                     .font(.system(size: 10))
                                                     .foregroundColor(Color("Font"))
@@ -177,5 +174,4 @@ struct HomeView: View {
 
 #Preview {
     HomeView()
-        .environmentObject(FilmClass())
 }
