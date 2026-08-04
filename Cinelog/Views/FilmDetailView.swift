@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct FilmDetailView: View {
-    @EnvironmentObject var viewModel: FilmClass
+    @StateObject private var viewModel = FilmDetailViewModel()
+    @EnvironmentObject var watchedFilmsStore: WatchedFilmsStore
     @State private var showAlertSheet = false
     @State private var showRatingSheet = false
     @Environment(\.dismiss) var dismiss
@@ -129,18 +130,18 @@ struct FilmDetailView: View {
             .navigationBarTitleDisplayMode(.inline)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .task {
-                await viewModel.loadFilmDetail(id: filmId)
+                await viewModel.loadFilmDetails(id: filmId)
             }
             if let film = viewModel.filmDetails {
                 Button {
-                    if !viewModel.isWatched {
+                    if !watchedFilmsStore.isWatched(film.id) {
                         showRatingSheet = true
-                        
+
                     } else {
                         showAlertSheet = true
                     }
                 } label: {
-                    Text(viewModel.isWatched ? "Watched" : "Mark as Watched")
+                    Text(watchedFilmsStore.isWatched(film.id) ? "Watched" : "Mark as Watched")
                         .foregroundColor(Color("Background"))
                         .frame(maxWidth: .infinity)
                         .frame(height: 50)
@@ -160,7 +161,7 @@ struct FilmDetailView: View {
                 }
                 .sheet(isPresented: $showRatingSheet) {
                     RatingView(film: film)
-                        .environmentObject(viewModel)
+                        .environmentObject(watchedFilmsStore)
                 }
             }
         }
@@ -173,7 +174,7 @@ struct FilmDetailView: View {
 
 #Preview {
     FilmDetailView(filmId: 594_767)
-        .environmentObject(FilmClass())
+        .environmentObject(WatchedFilmsStore())
 }
 
 extension Int {

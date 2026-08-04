@@ -11,7 +11,7 @@ import SwiftUI
 
 struct RootView: View {
     @State private var selectedTab = 0
-    @StateObject var viewModel = FilmClass()
+    @StateObject private var watchedFilmsStore = WatchedFilmsStore()
 
     var body: some View {
         TabView(selection: $selectedTab) {
@@ -33,7 +33,7 @@ struct RootView: View {
                 }
                 .tag(2)
         }
-        .environmentObject(viewModel)
+        .environmentObject(watchedFilmsStore)
         .accentColor(.blue) // Active tab icon color
     }
 }

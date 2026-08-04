@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RatingView: View {
-    @EnvironmentObject var viewModel: FilmClass
+    @EnvironmentObject var watchedFilmsStore: WatchedFilmsStore
     let film: FilmDetail
     @State private var watchedDate = Date.now
     @State private var isExpanded = false
@@ -18,17 +18,10 @@ struct RatingView: View {
     @State private var selectedScore: Int? = nil
     @Environment(\.dismiss) var dismiss
 
-
-    //    let dates = ["Today", "Yesterday", "Pick date..."]
-
     private let feelingOptions = [
         "Wept", "Rewatch", "Slow burn", "Cosy", "Shaken",
         "Inspired", "Underwhelmed", "Left thinking", "Fell asleep", "Breathtaking",
     ]
-
-//    private var film: FilmDetail? {
-//        viewModel.filmDetails
-//    }
 
     private let feelingIcons: [String: String] = [
         "Wept": "drop", "Rewatch": "arrow.clockwise", "Slow burn": "flame",
@@ -211,15 +204,15 @@ struct RatingView: View {
                         .padding(.bottom, 10)
 
                     Button("Rate this movie") {
-                        viewModel.watchedFilms.append(WatchedFilm(
+                        watchedFilmsStore.markWatched(
                             film: film,
                             scoreRating: selectedScore ?? 0,
                             dateWatched: watchedDate,
                             locationWatched: selectedLocation,
                             watchedWith: withText,
-                            emotionFelt: Array(selectedFeelings)))
+                            emotionFelt: Array(selectedFeelings))
                         dismiss()
-                        
+
                     }
                     .font(.headline)
                     .foregroundColor(.white)
@@ -382,5 +375,5 @@ func scoreLabel(for score: Int) -> String {
 
 #Preview {
     RatingView(film: FilmDetail(id: 594767, title: "Sinners", posterPath: nil, releaseDate: "2025-04-18", voteAverage: 7.5, voteCount: 1000, genreIds: nil, runtime: 137, genres: nil, overview: nil, tagline: nil))
-        .environmentObject(FilmClass())
+        .environmentObject(WatchedFilmsStore())
 }

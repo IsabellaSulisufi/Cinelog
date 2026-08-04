@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MyFilmsView: View {
-    @EnvironmentObject var viewModel: FilmClass
+    @EnvironmentObject var watchedFilmsStore: WatchedFilmsStore
 
     var body: some View {
         NavigationView {
@@ -19,7 +19,7 @@ struct MyFilmsView: View {
                     .padding(.leading, 24)
 
                 HStack {
-                    Text("\(viewModel.watchedFilms.count) films")
+                    Text("\(watchedFilmsStore.watchedFilms.count) films")
                         .foregroundColor(Color("Font"))
                         .font(.system(size: 12))
                 }
@@ -28,7 +28,7 @@ struct MyFilmsView: View {
 
                 ScrollView {
                     VStack(alignment: .leading, spacing: 10) {
-                        ForEach(viewModel.watchedFilms.prefix(5), id: \.film.id) { watchedFilm in
+                        ForEach(watchedFilmsStore.watchedFilms.prefix(5), id: \.film.id) { watchedFilm in
                             let film = watchedFilm.film
                             NavigationLink(destination: FilmDetailView(filmId: film.id)) {
                                 HStack(alignment: .top) {
@@ -129,5 +129,5 @@ struct MyFilmsView: View {
 
 #Preview {
     MyFilmsView()
-        .environmentObject(FilmClass())
+        .environmentObject(WatchedFilmsStore())
 }

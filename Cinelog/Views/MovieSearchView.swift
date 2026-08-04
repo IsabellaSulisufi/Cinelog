@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct MovieSearchView: View {
-    @State private var searchTerm = ""
-    @EnvironmentObject var viewModel: FilmClass
+    @StateObject private var viewModel = MovieSearchViewModel()
+     @State private var searchTerm = ""
 
     let genres = ["Action", "Comedy", "Drama", "Horror", "Romance", "Thriller", "Animation", "Sci-Fi", "Documentary"]
 
@@ -125,11 +125,11 @@ struct MovieSearchView: View {
             .searchable(text: $searchTerm, placement: .toolbar, prompt: "Search films, directors, genres")
             .onChange(of: searchTerm) {
                 Task {
-                    await viewModel.loadSearchedFilmResult(searchedFilm: searchTerm)
+                    await viewModel.search(searchTerm)
                 }
             }
             .task {
-                await viewModel.loadTopRatedFilmResult()
+                await viewModel.loadTopRatedFilms()
             }
         }
     }
@@ -139,5 +139,4 @@ struct MovieSearchView: View {
 
 #Preview {
     MovieSearchView()
-        .environmentObject(FilmClass())
 }
