@@ -15,7 +15,7 @@ class MovieSearchViewModel: ObservableObject {
     @Published private var searchTerm = ""
 
     let genres = ["Action", "Comedy", "Drama", "Horror", "Romance", "Thriller", "Animation", "Sci-Fi", "Documentary"]
-    
+
     private let service = MovieService()
 
     func loadTopRatedFilms() async {

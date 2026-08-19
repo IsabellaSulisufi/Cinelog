@@ -11,23 +11,22 @@ struct RatingView: View {
     @EnvironmentObject var watchedFilmsStore: WatchedFilmsStore
     let film: FilmDetail
     @State private var watchedDate = Date.now
-    @State private var isExpanded = false
     @State private var selectedLocation: String = ""
     @State private var withText: String = ""
     @State private var selectedFeelings: Set<String> = []
-    @State private var selectedScore: Int? = nil
+    @State private var selectedScore: Int?
     @Environment(\.dismiss) var dismiss
 
     private let feelingOptions = [
         "Wept", "Rewatch", "Slow burn", "Cosy", "Shaken",
-        "Inspired", "Underwhelmed", "Left thinking", "Fell asleep", "Breathtaking",
+        "Inspired", "Underwhelmed", "Left thinking", "Fell asleep", "Breathtaking"
     ]
 
     private let feelingIcons: [String: String] = [
         "Wept": "drop", "Rewatch": "arrow.clockwise", "Slow burn": "flame",
         "Cosy": "cup.and.saucer", "Shaken": "waveform.path.ecg", "Inspired": "lightbulb",
         "Underwhelmed": "hand.thumbsdown", "Left thinking": "brain",
-        "Fell asleep": "moon.zzz", "Breathtaking": "sparkles",
+        "Fell asleep": "moon.zzz", "Breathtaking": "sparkles"
     ]
 
     var body: some View {
@@ -37,16 +36,7 @@ struct RatingView: View {
                     // MOVIE DETAILS
                     HStack(alignment: .top) {
                             VStack {
-                                AsyncImage(url: URL(string: "https://image.tmdb.org/t/p/w500\(film.posterPath ?? "no poster")")) { image in
-                                    image
-                                        .resizable()
-                                        .scaledToFill()
-                                } placeholder: {
-                                    Rectangle()
-                                        .foregroundColor(Color.white)
-                                }
-                                .frame(width: 96, height: 144)
-                                .cornerRadius(8)
+                                FilmImageView(posterPath: film.posterPath ?? "", width: 96, height: 144)
                             }
                             .padding(.trailing, 14)
 
@@ -81,43 +71,7 @@ struct RatingView: View {
                         .padding(.bottom, 10)
 
                     // WHEN
-                    VStack(alignment: .leading, spacing: 12) {
-                        Text("When")
-                            .foregroundColor(Color("Accent"))
-                            .textCase(.uppercase)
-                            .fontWeight(.semibold)
-                            .font(.system(size: 12))
-                            .kerning(1.2)
-
-                        VStack(spacing: 0) {
-                            Button(action: { isExpanded.toggle() }) {
-                                HStack {
-                                    Image(systemName: "calendar")
-                                    VStack(alignment: .leading, spacing: 2) {
-                                        Text("WATCHED ON")
-                                            .font(.caption2)
-                                            .foregroundColor(.secondary)
-                                        Text(watchedDate, style: .date)
-                                    }
-                                    Spacer()
-                                    Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
-                                }
-                                .padding()
-                            }
-                            .buttonStyle(.plain)
-
-                            if isExpanded {
-                                Divider()
-                                DatePicker("", selection: $watchedDate, in: ...Date(), displayedComponents: .date)
-                                    .datePickerStyle(.graphical)
-                                    .padding(.horizontal, 8)
-                                    .onChange(of: watchedDate) { isExpanded = false }
-                            }
-                        }
-                        .background(Color("LightGrey"))
-                        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-                    }
-                    .padding(.bottom, 10)
+                    WatchedDateView(date: $watchedDate)
 
                     Divider()
                         .padding(.bottom, 10)
@@ -133,13 +87,18 @@ struct RatingView: View {
 
                         VStack(alignment: .leading, spacing: 8) {
                             HStack(spacing: 8) {
-                                chip("Cinema", icon: "ticket")
-                                chip("Home", icon: "house")
-                                chip("Traveling", icon: "airplane.up.right")
+                                ChipView(icon: "ticket", name: "Cinema", isSelected: selectedLocation == "Cinema")
+                                    .onTapGesture { selectedLocation = (selectedLocation == "Cinema") ? "" : "Cinema" }
+                                ChipView(icon: "house", name: "Home", isSelected: selectedLocation == "Home")
+                                    .onTapGesture { selectedLocation = (selectedLocation == "Home") ? "" : "Home" }
+                                ChipView(icon: "airplane.up.right", name: "Travelling", isSelected: selectedLocation == "Travelling")
+                                    .onTapGesture { selectedLocation = (selectedLocation == "Travelling") ? "" : "Travelling" }
                             }
                             HStack(spacing: 8) {
-                                chip("Friend's", icon: "person.2")
-                                chip("Other", icon: "mappin")
+                                ChipView(icon: "person.2", name: "Friend's", isSelected: selectedLocation == "Friend's")
+                                    .onTapGesture { selectedLocation = (selectedLocation == "Friend's") ? "" : "Friend's" }
+                                ChipView(icon: "mappin", name: "Other", isSelected: selectedLocation == "Other")
+                                    .onTapGesture { selectedLocation = (selectedLocation == "Other") ? "" : "Other" }
                             }
                         }
                         .padding(.bottom, 20.0)
@@ -183,17 +142,17 @@ struct RatingView: View {
                         VStack(alignment: .leading, spacing: 8) {
                             HStack(spacing: 8) {
                                 MultiSelectChips(options: ["Wept", "Rewatch", "Slow burn", "Cosy"], selection: $selectedFeelings) { name, isSelected in
-                                    chip(name, icon: feelingIcons[name] ?? "circle", isSelected: isSelected) {}
+                                    ChipView(icon: feelingIcons[name] ?? "circle", name: name, isSelected: isSelected)
                                 }
                             }
                             HStack(spacing: 8) {
                                 MultiSelectChips(options: ["Shaken", "Inspired", "Underwhelmed"], selection: $selectedFeelings) { name, isSelected in
-                                    chip(name, icon: feelingIcons[name] ?? "circle", isSelected: isSelected) {}
+                                    ChipView(icon: feelingIcons[name] ?? "circle", name: name, isSelected: isSelected)
                                 }
                             }
                             HStack(spacing: 8) {
                                 MultiSelectChips(options: ["Left thinking", "Fell asleep", "Breathtaking"], selection: $selectedFeelings) { name, isSelected in
-                                    chip(name, icon: feelingIcons[name] ?? "circle", isSelected: isSelected) {}
+                                    ChipView(icon: feelingIcons[name] ?? "circle", name: name, isSelected: isSelected)
                                 }
                             }
                         }
@@ -221,57 +180,11 @@ struct RatingView: View {
                     .cornerRadius(10)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.bottom, 40)
-                    
-
-                    
-                    
-
                 }
                 .padding(.horizontal, 20)
             }
             .background(Color("Background").ignoresSafeArea())
         }
-    }
-
-    func chip(_ name: String, icon: String) -> some View {
-        HStack(spacing: 6) {
-            Image(systemName: icon)
-                .font(.system(size: 13))
-            Text(name)
-                .font(.system(size: 13))
-        }
-        .padding(.horizontal, 10)
-        .padding(.vertical, 8)
-        .lineLimit(1)
-        .foregroundColor(selectedLocation == name ? .white : .primary)
-        .background(selectedLocation == name ? Color("Accent") : Color.white)
-        .cornerRadius(20)
-        .overlay(
-            RoundedRectangle(cornerRadius: 20)
-                .stroke(Color("LightGrey"), lineWidth: 1)
-        )
-        .onTapGesture {
-            selectedLocation = (selectedLocation == name) ? "" : name
-        }
-    }
-
-    func chip(_ name: String, icon: String, isSelected: Bool, action _: @escaping () -> Void) -> some View {
-        HStack(spacing: 6) {
-            Image(systemName: icon)
-                .font(.system(size: 13))
-            Text(name)
-                .font(.system(size: 13))
-        }
-        .padding(.horizontal, 10)
-        .padding(.vertical, 8)
-        .lineLimit(1)
-        .foregroundColor(isSelected ? .white : .primary)
-        .background(isSelected ? Color("Accent") : Color.white)
-        .cornerRadius(20)
-        .overlay(
-            RoundedRectangle(cornerRadius: 20)
-                .stroke(Color("LightGrey"), lineWidth: 1)
-        )
     }
 }
 
@@ -296,80 +209,6 @@ struct MultiSelectChips<Content: View>: View {
     }
 }
 
-struct ScorePickerView: View {
-    @Binding var selectedScore: Int?
-    let total: Int = 10
-
-    var body: some View {
-        VStack(alignment: .leading) {
-            Text("Your Score")
-                .foregroundColor(Color("Accent"))
-                .textCase(.uppercase)
-                .fontWeight(.semibold)
-                .font(.system(size: 12))
-                .kerning(1.2)
-
-            HStack(spacing: 6) {
-                ForEach(1 ... total, id: \.self) { index in
-                    RoundedRectangle(cornerRadius: 4)
-                        .fill((selectedScore ?? 0) >= index ? Color("Accent") : Color("LightGrey"))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 4)
-                                .stroke(Color.gray.opacity(0.3), lineWidth: 1)
-                        )
-                        .frame(width: 28, height: 28)
-                        .onTapGesture {
-                            // Tap same score to deselect
-                            if selectedScore == index {
-                                selectedScore = nil
-                            } else {
-                                selectedScore = index
-                            }
-                        }
-                }
-            }
-
-            HStack(spacing: 4) {
-                Text(selectedScore.map { "\($0)" } ?? "—")
-                    .font(.custom("CormorantGaramond-Italic", size: 26))
-                    .foregroundColor(selectedScore != nil ? Color("Accent") : .secondary)
-                Text("/ \(total)")
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-                if let score = selectedScore {
-                    Text("· \(scoreLabel(for: score))")
-//                        .italic()
-                        .foregroundColor(Color("Font"))
-                        .font(.custom("CormorantGaramond-Italic", size: 16))
-                } else {
-                    Text("tap to score")
-                        .italic()
-                        .foregroundColor(Color("Font"))
-                        .font(.system(size: 12))
-                        .padding(.leading, 4)
-                }
-            }
-        }
-//        .padding()
-    }
-
-}
-
-func scoreLabel(for score: Int) -> String {
-    switch score {
-    case 1: return "hated it"
-    case 2: return "not for me"
-    case 3: return "forgettable"
-    case 4: return "had its moments"
-    case 5: return "it was fine"
-    case 6: return "pretty good"
-    case 7: return "really enjoyed it"
-    case 8: return "loved it"
-    case 9: return "loved it"
-    case 10: return "a masterpiece"
-    default: return "okay i guess"
-    }
-}
 
 // MARK: - Preview
 
