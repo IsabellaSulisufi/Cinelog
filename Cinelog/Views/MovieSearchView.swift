@@ -27,19 +27,7 @@ struct MovieSearchView: View {
                                     .foregroundColor(Color("Accent"))
                                 HStack {
                                     ForEach(genres.shuffled().prefix(5), id: \.self) { genre in
-                                        Text(genre)
-
-                                            .font(.system(size: 13))
-                                            .padding(.horizontal, 10)
-                                            .padding(.vertical, 8)
-                                            .lineLimit(1)
-                                            .background(Color.white)
-                                            .cornerRadius(20)
-                                            .overlay(
-                                                RoundedRectangle(cornerRadius: 20)
-
-                                                    .stroke(Color("LightGrey"), lineWidth: 1)
-                                            )
+                                        ChipView(icon: nil, name: genre)
                                     }
                                 }
                                 .padding(.bottom, 20.0)
@@ -50,35 +38,8 @@ struct MovieSearchView: View {
                                 .fontWeight(.heavy)
                                 .font(.system(size: 14))
                                 .foregroundColor(Color("Accent"))
-                            LazyVGrid(columns: [
-                                GridItem(.flexible()),
-                                GridItem(.flexible()),
-                                GridItem(.flexible()),
-                            ], spacing: 15) {
-                                ForEach(viewModel.topRatedFilms, id: \.id) { film in
-                                    NavigationLink(destination: FilmDetailView(filmId: film.id)) {
-                                        VStack {
-                                            AsyncImage(url: URL(
-                                                string: "https://image.tmdb.org/t/p/w500\(film.posterPath ?? "")"
-                                            )) { image in
-                                                image
-                                                    .resizable()
-                                                    .scaledToFill()
-                                            } placeholder: {
-                                                Rectangle()
-                                                    .foregroundColor(Color.gray.opacity(0.3))
-                                            }
-                                            .frame(height: 160)
-                                            .cornerRadius(8)
-                                            Text(film.title)
-                                                .foregroundColor(Color.black)
-                                                .font(.system(size: 12))
-                                                .lineLimit(2)
-                                                .multilineTextAlignment(.leading)
-                                        }
-                                    }
-                                }
-                            }
+
+                            FilmGridSection(films: viewModel.topRatedFilms)
                         }
                         .padding(.horizontal, 5)
                         .padding(.top, 15)
@@ -87,35 +48,7 @@ struct MovieSearchView: View {
 
                 } else {
                     ScrollView {
-                        LazyVGrid(columns: [
-                            GridItem(.flexible()),
-                            GridItem(.flexible()),
-                            GridItem(.flexible()),
-                        ], spacing: 12) {
-                            ForEach(viewModel.searchResults, id: \.id) { film in
-                                NavigationLink(destination: FilmDetailView(filmId: film.id)) {
-                                    VStack {
-                                        AsyncImage(url: URL(
-                                            string: "https://image.tmdb.org/t/p/w500\(film.posterPath ?? "")"
-                                        )) { image in
-                                            image
-                                                .resizable()
-                                                .scaledToFill()
-                                        } placeholder: {
-                                            Rectangle()
-                                                .foregroundColor(Color.gray.opacity(0.3))
-                                        }
-                                        .frame(height: 160)
-                                        .cornerRadius(8)
-                                        Text(film.title)
-                                            .foregroundColor(Color.black)
-                                            .font(.system(size: 11))
-                                            .lineLimit(2)
-                                            .multilineTextAlignment(.center)
-                                    }
-                                }
-                            }
-                        }
+                        FilmGridSection(films: viewModel.searchResults)
                         .padding(.horizontal, 12)
                     }
                 }

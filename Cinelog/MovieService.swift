@@ -30,7 +30,7 @@ func makeAPIRequest<T: Codable>(endpoint: String) async throws -> T {
     request.timeoutInterval = 10
     request.allHTTPHeaderFields = [
         "accept": "application/json",
-        "Authorization": "Bearer \(token)",
+        "Authorization": "Bearer \(token)"
     ]
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -52,7 +52,6 @@ func makeAPIRequest<T: Codable>(endpoint: String) async throws -> T {
         throw NetworkError.invalidData
     }
 }
-
 
 struct MovieService {
     func fetchPopularFilms() async throws -> [FilmDetail] {

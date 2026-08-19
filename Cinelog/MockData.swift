@@ -70,5 +70,5 @@ let watchedFilms: [FilmDetail] = [
         genres: [Genre(id: 878, name: "Science Fiction")],
         overview: "Humanity finds a mysterious object buried beneath the lunar surface.",
         tagline: "An epic drama of adventure and exploration"
-    ),
+    )
 ]
