@@ -83,6 +83,9 @@ struct FilmDetailView: View {
                         Spacer()
                     }
 
+                } else if let errorMessage = viewModel.errorMessage {
+                    Text(errorMessage)
+                        .foregroundColor(Color("Font"))
                 } else {
                     Text("Loading")
                 }
@@ -120,8 +123,7 @@ struct FilmDetailView: View {
                     Text("This one's already in your collection. Time to find your next favourite?")
                 }
                 .sheet(isPresented: $showRatingSheet) {
-                    RatingView(film: film)
-                        .environmentObject(watchedFilmsStore)
+                    RatingView(film: film, store: watchedFilmsStore)
                 }
             }
         }
