@@ -16,6 +16,12 @@ struct MovieSearchView: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 10) {
+                if let errorMessage = viewModel.errorMessage {
+                    Text(errorMessage)
+                        .foregroundColor(Color("Font"))
+                        .font(.system(size: 12))
+                }
+
                 if viewModel.searchResults.isEmpty {
                     ScrollView {
                         VStack(alignment: .leading) {

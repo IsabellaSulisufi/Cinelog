@@ -26,7 +26,7 @@ struct FilmCarouselSection: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
 
-        ScrollView(.horizontal) {
+        ScrollView(.horizontal, showsIndicators: false) {
             HStack(alignment: .top) {
                 if films.isEmpty {
                     Text("Loading...")

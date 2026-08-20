@@ -12,22 +12,29 @@ import Combine
 class HomeViewModel: ObservableObject {
     @Published var popularFilms: [FilmDetail] = []
     @Published var nowPlayingInCinemaFilms: [FilmDetail] = []
+    @Published var errorMessage: String?
 
     private let service = MovieService()
 
     func loadPopularFilms() async {
+        errorMessage = nil
         do {
-            popularFilms = try await service.fetchPopularFilms()   // ← calls it
+            popularFilms = try await service.fetchPopularFilms()
+        } catch let error as URLError {
+            errorMessage = "No internet connection. Check your connection and try again."
         } catch {
-            print(error)
+            errorMessage = "Something went wrong. Please try again later."
         }
     }
 
     func loadNowPlayingInCinemaFilms() async {
+        errorMessage = nil
         do {
             nowPlayingInCinemaFilms = try await service.fetchNowPlayingInCinemaFilms()
+        } catch let error as URLError {
+            errorMessage = "No internet connection. Check your connection and try again."
         } catch {
-            print(error)
+            errorMessage = "Something went wrong. Please try again later."
         }
     }
 }

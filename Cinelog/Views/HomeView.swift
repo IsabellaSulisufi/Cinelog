@@ -16,6 +16,12 @@ struct HomeView: View {
                 Text("Cinelog")
                     .font(.custom("CormorantGaramond-BoldItalic", size: 36))
 
+                if let errorMessage = viewModel.errorMessage {
+                    Text(errorMessage)
+                        .foregroundColor(Color("Font"))
+                        .font(.system(size: 12))
+                }
+
                 FilmCarouselSection(title: "In Rotation", subtitle: "Popular right now", films: viewModel.popularFilms)
 
                 FilmCarouselSection(title: "Try Something New", subtitle: "Now Playing in Cinemas", films: viewModel.nowPlayingInCinemaFilms)
