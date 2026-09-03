@@ -6,11 +6,27 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		5724C4E9304826BF00A3B814 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 57437DC42F631D9600CB07BA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 57437DCB2F631D9600CB07BA;
+			remoteInfo = Cinelog;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		5724C4E5304826BF00A3B814 /* CinelogTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CinelogTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		57437DCC2F631D9600CB07BA /* Cinelog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cinelog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		5724C4E6304826BF00A3B814 /* CinelogTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = CinelogTests;
+			sourceTree = "<group>";
+		};
 		57437DCE2F631D9600CB07BA /* Cinelog */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Cinelog;
@@ -19,6 +35,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		5724C4E2304826BF00A3B814 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		57437DC92F631D9600CB07BA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -33,6 +56,7 @@
 			isa = PBXGroup;
 			children = (
 				57437DCE2F631D9600CB07BA /* Cinelog */,
+				5724C4E6304826BF00A3B814 /* CinelogTests */,
 				57437DCD2F631D9600CB07BA /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				57437DCC2F631D9600CB07BA /* Cinelog.app */,
+				5724C4E5304826BF00A3B814 /* CinelogTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,6 +73,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		5724C4E4304826BF00A3B814 /* CinelogTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5724C4ED304826BF00A3B814 /* Build configuration list for PBXNativeTarget "CinelogTests" */;
+			buildPhases = (
+				5724C4E1304826BF00A3B814 /* Sources */,
+				5724C4E2304826BF00A3B814 /* Frameworks */,
+				5724C4E3304826BF00A3B814 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5724C4EA304826BF00A3B814 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				5724C4E6304826BF00A3B814 /* CinelogTests */,
+			);
+			name = CinelogTests;
+			packageProductDependencies = (
+			);
+			productName = CinelogTests;
+			productReference = 5724C4E5304826BF00A3B814 /* CinelogTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		57437DCB2F631D9600CB07BA /* Cinelog */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 57437DD72F631D9800CB07BA /* Build configuration list for PBXNativeTarget "Cinelog" */;
@@ -77,9 +125,13 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 2620;
+				LastSwiftUpdateCheck = 2630;
 				LastUpgradeCheck = 2620;
 				TargetAttributes = {
+					5724C4E4304826BF00A3B814 = {
+						CreatedOnToolsVersion = 26.3;
+						TestTargetID = 57437DCB2F631D9600CB07BA;
+					};
 					57437DCB2F631D9600CB07BA = {
 						CreatedOnToolsVersion = 26.2;
 					};
@@ -100,11 +152,19 @@
 			projectRoot = "";
 			targets = (
 				57437DCB2F631D9600CB07BA /* Cinelog */,
+				5724C4E4304826BF00A3B814 /* CinelogTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		5724C4E3304826BF00A3B814 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		57437DCA2F631D9600CB07BA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -115,6 +175,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		5724C4E1304826BF00A3B814 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		57437DC82F631D9600CB07BA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -124,7 +191,70 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		5724C4EA304826BF00A3B814 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			platformFilters = (
+				ios,
+				xros,
+			);
+			target = 57437DCB2F631D9600CB07BA /* Cinelog */;
+			targetProxy = 5724C4E9304826BF00A3B814 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		5724C4EB304826BF00A3B814 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FA78TW6FJ8;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = isabellaSulisufi.CinelogTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = xros;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Cinelog.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Cinelog";
+				XROS_DEPLOYMENT_TARGET = 26.2;
+			};
+			name = Debug;
+		};
+		5724C4EC304826BF00A3B814 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FA78TW6FJ8;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = isabellaSulisufi.CinelogTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = xros;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Cinelog.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Cinelog";
+				VALIDATE_PRODUCT = YES;
+				XROS_DEPLOYMENT_TARGET = 26.2;
+			};
+			name = Release;
+		};
 		57437DD52F631D9800CB07BA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -314,6 +444,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		5724C4ED304826BF00A3B814 /* Build configuration list for PBXNativeTarget "CinelogTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5724C4EB304826BF00A3B814 /* Debug */,
+				5724C4EC304826BF00A3B814 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		57437DC72F631D9600CB07BA /* Build configuration list for PBXProject "Cinelog" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

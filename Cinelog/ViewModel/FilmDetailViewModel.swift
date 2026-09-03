@@ -12,8 +12,12 @@ import Combine
 class FilmDetailViewModel: ObservableObject {
     @Published var filmDetails: FilmDetail?
     @Published var errorMessage: String?
-    private let service = MovieService()
-
+    private let service: MovieServiceProtocol
+    
+    init(service: MovieServiceProtocol = MovieService()) {
+        self.service = service
+    }
+    
     func loadFilmDetails(id: Int) async {
         errorMessage = nil
         do {
