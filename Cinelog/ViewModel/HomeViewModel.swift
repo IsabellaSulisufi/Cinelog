@@ -13,8 +13,11 @@ class HomeViewModel: ObservableObject {
     @Published var popularFilms: [FilmDetail] = []
     @Published var nowPlayingInCinemaFilms: [FilmDetail] = []
     @Published var errorMessage: String?
-
-    private let service = MovieService()
+    private let service: MovieServiceProtocol
+    
+    init(service: MovieServiceProtocol = MovieService()) {
+        self.service = service
+    }
 
     func loadPopularFilms() async {
         errorMessage = nil

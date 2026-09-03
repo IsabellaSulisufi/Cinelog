@@ -53,7 +53,15 @@ func makeAPIRequest<T: Codable>(endpoint: String) async throws -> T {
     }
 }
 
-struct MovieService {
+protocol MovieServiceProtocol {
+    func fetchPopularFilms() async throws -> [FilmDetail]
+    func fetchNowPlayingInCinemaFilms() async throws -> [FilmDetail]
+    func fetchTopRatedFilms() async throws -> [FilmDetail]
+    func searchFilms(query: String) async throws -> [FilmDetail]
+    func fetchFilmDetail(id: Int) async throws -> FilmDetail
+}
+
+struct MovieService: MovieServiceProtocol {
     func fetchPopularFilms() async throws -> [FilmDetail] {
         try await fetchFilms(endpoint: "movie/popular")
     }
